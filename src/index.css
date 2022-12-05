@@ -8,7 +8,9 @@ body {
   background: hsl(210 25% 15%);
   color: hsl(210 25% 95%);
 }
-
+button {
+  cursor: pointer;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
