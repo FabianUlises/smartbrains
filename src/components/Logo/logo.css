@@ -1,0 +1,10 @@
+.Tilt {
+    background: hsl(210 45% 10% / .825);
+    font-size: 7rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
