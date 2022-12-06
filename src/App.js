@@ -31,13 +31,27 @@ const particlesOptions = {
 function App() {
   const [input, setinput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [box, setBox] = useState({});
+  // Calculate dimensions to display box around face
   const calculateFaceLocation = (data) => {
-    const clarifaiFace = data.response.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.querySelector('#image-input');
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.querySelector('#input-image');
     const height = Number(image.height);
     const width = Number(image.width);
     console.log(height, width);
+    // Returning object with data containing location points
+    return{
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * width)
+    }
   }
+  // Update box sate
+  const displayFaceBox = (box) => {
+    console.log(box);
+    setBox(box);
+  };
   // Input hanlder functions
   const onInputChange = (e) => {
     setinput(e.target.value);
@@ -48,8 +62,13 @@ function App() {
       .predict(
         Clarifai.FACE_DETECT_MODEL,
         input)
-      .then((response) => console.log(response.outputs[0].data.regions[0].region_info.bounding_box))
-      .catch((err) => console.log('error', err));
+      .then((response) => {
+        console.log('response')
+        displayFaceBox(calculateFaceLocation(response))
+      })
+      .catch((err) => 
+        console.log('error', err)
+      );
   };
   return (
     <div className="App">
@@ -58,7 +77,7 @@ function App() {
       <Signin />
       <Rank />
       <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
-      <Facerecognition imageUrl={imageUrl} />
+      <Facerecognition imageUrl={imageUrl} box={box} />
     </div>
   );
 };
