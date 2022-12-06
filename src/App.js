@@ -32,6 +32,7 @@ function App() {
   const [input, setinput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [box, setBox] = useState({});
+  const [route, setRoute] = useState('signout');
   // Calculate dimensions to display box around face
   const calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -74,10 +75,15 @@ function App() {
     <div className="App">
       {/* <Particles params={particlesOptions} className='particles'/> */}
       <Navigation />
-      <Signin />
-      <Rank />
-      <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
-      <Facerecognition imageUrl={imageUrl} box={box} />
+      { route === 'signin'
+        ? <Signin />
+        : <div>
+            <Rank />
+            <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
+            <Facerecognition imageUrl={imageUrl} box={box} />
+          </div>
+
+      }
     </div>
   );
 };
