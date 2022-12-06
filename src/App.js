@@ -7,6 +7,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import Facerecognition from './components/FaceRecognition/Facerecognition';
 import Signin from './components/Signin/Signin';
+import Register from './components/Register/Register';
 // Libraries
 import 'tachyons';
 // Clarifai api
@@ -33,6 +34,7 @@ function App() {
   const [imageUrl, setImageUrl] = useState('');
   const [box, setBox] = useState({});
   const [route, setRoute] = useState('signin');
+  const [isSignedIn, setIsSignedIn] = useState(false);
   // Calculate dimensions to display box around face
   const calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -73,21 +75,35 @@ function App() {
   };
   // Handle sign in route
   const routeChange = (route) => {
-    setRoute(route);
+    if(route === 'signout') {
+      setRoute('signin');
+      setIsSignedIn(false);
+    } else if(route === 'home') {
+      setIsSignedIn(true);
+      setRoute(route)
+    }
   }
+
   return (
     <div className="App">
-      {/* <button onClick={onRouteChange}>click me</button> */}
       {/* <Particles params={particlesOptions} className='particles'/> */}
-      <Navigation routeChange={routeChange} />
-      { route === 'signin'
-        ? <Signin routeChange={routeChange}/>
-        : <div>
+      <Navigation routeChange={routeChange} isSignedIn={isSignedIn}/>
+      { route === 'home'
+        ? <div>
             <Rank />
             <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
             <Facerecognition imageUrl={imageUrl} box={box} />
           </div>
-
+        : (
+          route === 'signin'
+          ?
+            <Signin routeChange={routeChange} />
+          : route === 'register'
+          ?
+            <Register routeChange={routeChange} />
+          :
+          <Signin routeChange={routeChange} route={route} />
+        )
       }
     </div>
   );

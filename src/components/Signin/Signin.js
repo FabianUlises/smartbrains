@@ -1,7 +1,7 @@
 import React from 'react';
 import './signin.css';
 
-const Signin = ({ routeChange }) => {
+const Signin = ({ routeChange, route }) => {
   return (
     <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center form-article">
         <main className="pa4">
@@ -22,7 +22,7 @@ const Signin = ({ routeChange }) => {
                     {/* <button onclick={() => console.log(route)}>sign in</button> */}
                 </div>
                 <div className="lh-copy mt3 signup-btn">
-                    <p onClick={() => routeChange('register')} className="f6 link dim db pointer">Register</p>
+                    <p onClick={() => console.log(route, 'route')} className="f6 link dim db pointer">Register</p>
                 </div>
             </form> 
         </main>
