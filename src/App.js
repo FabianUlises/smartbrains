@@ -33,11 +33,11 @@ function App() {
   const [imageUrl, setImageUrl] = useState('');
   const calculateFaceLocation = (data) => {
     const clarifaiFace = data.response.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.querySelector('#input-image');
-    const width = Number(image.width);
+    const image = document.querySelector('#image-input');
     const height = Number(image.height);
-    console.log(width, height)
-  };
+    const width = Number(image.width);
+    console.log(height, width);
+  }
   // Input hanlder functions
   const onInputChange = (e) => {
     setinput(e.target.value);
@@ -48,8 +48,8 @@ function App() {
       .predict(
         Clarifai.FACE_DETECT_MODEL,
         input)
-      .then((response) => calculateFaceLocation(response))
-      .catch((err) => console.log('error', err))
+      .then((response) => console.log(response.outputs[0].data.regions[0].region_info.bounding_box))
+      .catch((err) => console.log('error', err));
   };
   return (
     <div className="App">
