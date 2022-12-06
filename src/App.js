@@ -1,4 +1,5 @@
-import React from 'react';
+// Default imports
+import React, { useState } from 'react';
 import './App.css';
 // components
 import Navigation from './components/Navigation/Navigation';
@@ -6,7 +7,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 // Libraries
 import 'tachyons';
-// import Particles from 'react-particles-js';
+// Options for particles;
 const particlesOptions = {
   particles: {
     number: {
@@ -18,16 +19,24 @@ const particlesOptions = {
     }
   }
 };
+// Input hanlder functions
+const onInputChange = (e) => {
+  console.log(e.target.value);
+};
+const onButtonSubmit = () => {
+  console.log('click');
+};
 function App() {
+  const [input, setinput] = useState('');
   return (
     <div className="App">
       {/* <Particles params={particlesOptions} className='particles'/> */}
       <Navigation />
       <Rank />
-      <ImageLinkForm />
+      <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
       {/* <FaceRecognition /> */}
     </div>
   );
-}
+};
 
 export default App;
