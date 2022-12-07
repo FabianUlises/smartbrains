@@ -133,12 +133,12 @@ function App() {
         : (
           route === 'signin'
           ?
-            <Signin routeChange={routeChange} />
+            <Signin routeChange={routeChange} loadUser={loadUser} />
           : route === 'register'
           ?
             <Register routeChange={routeChange} loadUser={loadUser} />
           :
-          <Signin routeChange={routeChange} route={route} />
+          <Signin routeChange={routeChange} route={route} loadUser={loadUser} />
         )
       }
     </div>

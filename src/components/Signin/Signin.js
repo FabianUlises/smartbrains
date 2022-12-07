@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './signin.css';
 
-const Signin = ({ routeChange, route }) => {
+const Signin = ({ routeChange, route, loadUser }) => {
     const [signInEmail, setSignInEmail] = useState('');
     const [signInPassword, setSignInPassword] = useState('');
     const emailChange = (e) => {
@@ -20,8 +20,9 @@ const Signin = ({ routeChange, route }) => {
             })
         })
         .then(response => response.json())
-        .then(data => {
-            if(data === 'success') {
+        .then(user => {
+            if(user) {
+                loadUser(user)
                 routeChange('home');
             }
         })
