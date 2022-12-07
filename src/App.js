@@ -33,14 +33,15 @@ function App() {
   const [input, setinput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [box, setBox] = useState({});
-  const [route, setRoute] = useState('signin');
+  const [route, setRoute] = useState('register');
   const [isSignedIn, setIsSignedIn] = useState(false);
-  // useEffect
-  useEffect(() => {
-    fetch('http://localhost:3001')
-      .then(res => res.json())
-      .then(console.log)
-  }, []);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  });
   // Calculate dimensions to display box around face
   const calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -89,7 +90,21 @@ function App() {
       setRoute(route)
     }
   }
-
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    })
+  }
+  // useEffect
+  useEffect(() => {
+    fetch('http://localhost:3001')
+      .then(res => res.json())
+      .then(console.log)
+  }, []);
   return (
     <div className="App">
       {/* <Particles params={particlesOptions} className='particles'/> */}
@@ -106,7 +121,7 @@ function App() {
             <Signin routeChange={routeChange} />
           : route === 'register'
           ?
-            <Register routeChange={routeChange} />
+            <Register routeChange={routeChange} loadUser={loadUser} />
           :
           <Signin routeChange={routeChange} route={route} />
         )
