@@ -21,7 +21,7 @@ const Signin = ({ routeChange, route, loadUser }) => {
         })
         .then(response => response.json())
         .then(user => {
-            if(user) {
+            if(user.id) {
                 loadUser(user)
                 routeChange('home');
             }
