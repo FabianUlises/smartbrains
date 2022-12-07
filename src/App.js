@@ -33,7 +33,7 @@ function App() {
   const [input, setinput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [box, setBox] = useState({});
-  const [route, setRoute] = useState('register');
+  const [route, setRoute] = useState('signin');
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState({
     id: '',
@@ -73,7 +73,22 @@ function App() {
         Clarifai.FACE_DETECT_MODEL,
         input)
       .then((response) => {
-        console.log('response')
+        if(response) {
+          fetch('http://localhost:3001/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              setUser({
+                ...user,
+                entries: count
+              })
+            })
+        }
         displayFaceBox(calculateFaceLocation(response))
       })
       .catch((err) => 
@@ -111,7 +126,7 @@ function App() {
       <Navigation routeChange={routeChange} isSignedIn={isSignedIn}/>
       { route === 'home'
         ? <div>
-            <Rank />
+            <Rank name={user.name} entries={user.entries} />
             <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
             <Facerecognition imageUrl={imageUrl} box={box} />
           </div>
